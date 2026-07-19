@@ -9,10 +9,12 @@ from sqlalchemy.orm import Session
 
 from . import auth, models, schemas
 from .database import Base, engine, get_db
+from prometheus_fastapi_instrumentator import Instrumentator
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Transcription SaaS - API & auth service")
+Instrumentator().instrument(app).expose(app)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 

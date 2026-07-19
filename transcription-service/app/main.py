@@ -8,8 +8,10 @@ from peft import PeftModel
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from fastapi import FastAPI, File, UploadFile
 from faster_whisper import WhisperModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Transcription SaaS")
+Instrumentator().instrument(app).expose(app)
 
 MODEL_SIZE = os.getenv("WHISPER_MODEL_SIZE", "base")
 model = WhisperModel(MODEL_SIZE, device="cpu", compute_type="int8")
