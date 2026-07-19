@@ -2,18 +2,31 @@ import os
 from typing import List
 
 import httpx
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError
+from prometheus_fastapi_instrumentator import Instrumentator
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 from sqlalchemy.orm import Session
 
 from . import auth, models, schemas
 from .database import Base, engine, get_db
-from prometheus_fastapi_instrumentator import Instrumentator
 
+MAX_UPLOAD_BYTES = 25 * 1024 * 1024  # 25MB
+ALLOWED_CONTENT_TYPES = {
+    "audio/wav", "audio/x-wav", "audio/mpeg", "audio/mp3",
+    "audio/webm", "audio/ogg", "audio/x-m4a", "audio/mp4",
+}
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Transcription SaaS - API & auth service")
+app = FastAPI(title="Transcription SaaS: API & auth service")
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 Instrumentator().instrument(app).expose(app)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
@@ -44,7 +57,8 @@ def health():
 
 
 @app.post("/register", response_model=schemas.UserOut)
-def register(payload: schemas.UserCreate, db: Session = Depends(get_db)):
+@limiter.limit("5/minute")
+def register(request: Request, payload: schemas.UserCreate, db: Session = Depends(get_db)):
     existing = db.query(models.User).filter(models.User.email == payload.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -59,7 +73,8 @@ def register(payload: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @app.post("/login", response_model=schemas.Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == form_data.username).first()
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
@@ -67,8 +82,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     token = auth.create_access_token({"sub": str(user.id), "role": user.role})
     return schemas.Token(access_token=token)
 
+
 @app.post("/transcribe", response_model=schemas.JobOut)
+@limiter.limit("20/minute")
 async def transcribe(
+    request: Request,
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
@@ -79,7 +97,16 @@ async def transcribe(
     db.refresh(job)
 
     audio_bytes = await file.read()
+    if len(audio_bytes) > MAX_UPLOAD_BYTES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=413, detail="File too large (max 25MB)")
 
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=415, detail="Unsupported audio format")
+        
     async with httpx.AsyncClient(timeout=300) as client:
         try:
             response = await client.post(
