@@ -71,7 +71,6 @@ def register(request: Request, payload: schemas.UserCreate, db: Session = Depend
     db.refresh(user)
     return user
 
-
 @app.post("/login", response_model=schemas.Token)
 @limiter.limit("10/minute")
 def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -136,6 +135,59 @@ async def transcribe(
     db.refresh(job)
     return job
 
+@app.post("/transcribe/scottish", response_model=schemas.JobOut)
+@limiter.limit("5/minute")
+async def transcribe_scottish(
+    request: Request,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    job = models.Job(user_id=current_user.id, filename=file.filename, status="processing")
+    db.add(job)
+    db.commit()
+    db.refresh(job)
+
+    audio_bytes = await file.read()
+
+    if len(audio_bytes) > MAX_UPLOAD_BYTES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=413, detail="File too large (max 25MB)")
+
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=415, detail="Unsupported audio format")
+
+    async with httpx.AsyncClient(timeout=300) as client:
+        try:
+            response = await client.post(
+                f"{TRANSCRIPTION_SERVICE_URL}/transcribe/scottish",
+                files={"file": (file.filename, audio_bytes, file.content_type)},
+            )
+        except httpx.HTTPError:
+            job.status = "failed"
+            db.commit()
+            raise HTTPException(status_code=502, detail="Transcription service unreachable")
+
+    if response.status_code != 200:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=502, detail="Transcription service error")
+
+    result = response.json()
+    transcript = models.Transcript(
+        job_id=job.id,
+        text=result["text"],
+        language=result.get("language"),
+        duration_seconds=result.get("duration_seconds"),
+    )
+    db.add(transcript)
+    job.status = "completed"
+    db.commit()
+    db.refresh(job)
+    return job
 
 @app.get("/jobs", response_model=List[schemas.JobOut])
 def list_jobs(
