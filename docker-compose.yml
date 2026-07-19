@@ -18,6 +18,8 @@ services:
   transcription-service:
     build: ./transcription-service
     restart: unless-stopped
+    cpus: 4
+    mem_limit: 16g
     environment:
       WHISPER_MODEL_SIZE: base
     expose:
