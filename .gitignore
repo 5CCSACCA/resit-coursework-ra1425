@@ -6,3 +6,4 @@ venv/
 *.log
 *.wav
 *.mp3
+*.db
