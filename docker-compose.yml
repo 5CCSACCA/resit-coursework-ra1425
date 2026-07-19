@@ -37,7 +37,7 @@ services:
       TRANSCRIPTION_SERVICE_URL: http://transcription-service:8001
     ports:
       - "8000:8000"
-prometheus:
+  prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
@@ -45,7 +45,7 @@ prometheus:
     ports:
       - "9090:9090"
 
-grafana:
+  grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
     ports:
