@@ -14,6 +14,11 @@ from sqlalchemy.orm import Session
 from . import auth, models, schemas
 from .database import Base, engine, get_db
 
+MAX_UPLOAD_BYTES = 25 * 1024 * 1024  # 25MB
+ALLOWED_CONTENT_TYPES = {
+    "audio/wav", "audio/x-wav", "audio/mpeg", "audio/mp3",
+    "audio/webm", "audio/ogg", "audio/x-m4a", "audio/mp4",
+}
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Transcription SaaS: API & auth service")
@@ -92,7 +97,16 @@ async def transcribe(
     db.refresh(job)
 
     audio_bytes = await file.read()
+    if len(audio_bytes) > MAX_UPLOAD_BYTES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=413, detail="File too large (max 25MB)")
 
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
+        job.status = "failed"
+        db.commit()
+        raise HTTPException(status_code=415, detail="Unsupported audio format")
+        
     async with httpx.AsyncClient(timeout=300) as client:
         try:
             response = await client.post(
