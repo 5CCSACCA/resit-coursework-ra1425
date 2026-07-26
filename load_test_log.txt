@@ -1,0 +1,130 @@
+=== General endpoint burst ===
+--- 18:16:22 ---
+request 4: 200
+request 3: 200
+request 1: 200
+request 2: 200
+request 5: 200
+resit-coursework-ra1425-api-service-1	0.61%	76.03MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	362.74%	789.1MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.16%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	25.42MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.15%	29.17MiB / 7.653GiB
+--- 18:16:25 ---
+resit-coursework-ra1425-api-service-1	0.21%	76.02MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.26%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.47%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	25.4MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.26MiB / 7.653GiB
+--- 18:16:29 ---
+resit-coursework-ra1425-api-service-1	0.23%	76.01MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.22%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.43%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	25.59MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	3.15%	29.45MiB / 7.653GiB
+--- 18:16:33 ---
+resit-coursework-ra1425-api-service-1	0.84%	76.22MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.77%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.49%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	25.59MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.07%	29.41MiB / 7.653GiB
+--- 18:16:36 ---
+resit-coursework-ra1425-api-service-1	0.19%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.20%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.41%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.03%	25.62MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.02%	29.38MiB / 7.653GiB
+--- 18:16:40 ---
+resit-coursework-ra1425-api-service-1	0.17%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.20%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.41%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	28.01MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	3.12%	29.75MiB / 7.653GiB
+--- 18:16:44 ---
+resit-coursework-ra1425-api-service-1	0.15%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.15%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.36%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	28.02MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.16MiB / 7.653GiB
+--- 18:16:47 ---
+resit-coursework-ra1425-api-service-1	0.21%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.20%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.45%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	28.02MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.31MiB / 7.653GiB
+--- 18:16:50 ---
+resit-coursework-ra1425-api-service-1	0.16%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.17%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.53%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.29MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	2.76%	29.21MiB / 7.653GiB
+--- 18:16:54 ---
+resit-coursework-ra1425-api-service-1	0.21%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.24%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.39%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.10%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.16MiB / 7.653GiB
+--- 18:16:57 ---
+resit-coursework-ra1425-api-service-1	0.22%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.22%	789MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.36%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.22MiB / 7.653GiB
+--- 18:17:01 ---
+resit-coursework-ra1425-api-service-1	0.22%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.21%	789.1MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.42%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.07%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.55MiB / 7.653GiB
+--- 18:17:04 ---
+resit-coursework-ra1425-api-service-1	0.19%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.16%	789.1MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.37%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.29MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	1.58%	31.95MiB / 7.653GiB
+--- 18:17:07 ---
+resit-coursework-ra1425-api-service-1	0.22%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.19%	789.1MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.44%	91.02MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.25MiB / 7.653GiB
+--- 18:17:11 ---
+resit-coursework-ra1425-api-service-1	0.10%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.12%	789.2MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.35%	91.52MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.30%	29.16MiB / 7.653GiB
+--- 18:17:14 ---
+resit-coursework-ra1425-api-service-1	0.21%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.20%	789.2MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.42%	89.2MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	2.93%	29.5MiB / 7.653GiB
+--- 18:17:17 ---
+resit-coursework-ra1425-api-service-1	0.48%	75.94MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.55%	789.3MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.53%	89.44MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.53%	29.55MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.01%	29.16MiB / 7.653GiB
+--- 18:17:21 ---
+resit-coursework-ra1425-api-service-1	0.16%	75.93MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.16%	789.3MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.52%	89.2MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.06%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.00%	29.16MiB / 7.653GiB
+--- 18:17:25 ---
+resit-coursework-ra1425-api-service-1	0.22%	75.92MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.18%	789.3MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.40%	89.2MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	2.99%	29.44MiB / 7.653GiB
+--- 18:17:28 ---
+resit-coursework-ra1425-api-service-1	0.21%	75.92MiB / 7.653GiB
+resit-coursework-ra1425-transcription-service-1	0.19%	789.3MiB / 7.653GiB
+resit-coursework-ra1425-grafana-1	0.44%	89.45MiB / 7.653GiB
+resit-coursework-ra1425-prometheus-1	0.00%	29.27MiB / 7.653GiB
+resit-coursework-ra1425-postgres-1	0.01%	29.16MiB / 7.653GiB
+=== Scottish endpoint burst ===
+request 3: 200
+request 1: 200
+request 2: 200
