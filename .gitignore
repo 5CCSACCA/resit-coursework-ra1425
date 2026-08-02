@@ -4,6 +4,6 @@ __pycache__/
 .venv/
 venv/
 *.log
-*.wav
 *.mp3
 *.db
+#*.wav was also in the gitignore but i removed it to ease the testing 
