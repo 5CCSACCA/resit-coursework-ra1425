@@ -111,6 +111,14 @@ source venv/bin/activate
 pip install -r requirements.txt -r requirements-test.txt
 python -m pytest -v
 ```
+## Testing evidence
+
+`testing-evidence/cpu-load-test-capped.txt` contains raw output from
+concurrent load testing described in the report's Costs and Architecture
+sections: 5 concurrent `/transcribe` and 3 concurrent `/transcribe/scottish`
+requests, all returning `200`, with `transcription-service` capped to 4
+vCPUs / 16GB and CPU usage staying under that limit throughout. Kept here
+as supporting evidence for those figures.
 
 ## Architecture
 
