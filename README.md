@@ -4,12 +4,28 @@ A speech-to-text transcription platform built on OpenAI's Whisper, deployed as
 a set of Docker microservices. Includes a general-purpose transcription
 endpoint and a second endpoint fine-tuned for Scottish-accented English.
 
-## Quick start
+## Prerequisites
+
+Before you start, you need:
+
+- **Docker Desktop** (includes Docker Compose), from docker.com.
+- **Git**, to clone the repository.
+
+Python, the ML libraries, and both Whisper models install and
+download automatically inside the containers during the build step below,
+no manual setup required.
+
+## Getting started
+
+Clone the repository and move into it:
 
 ```bash
-docker compose build
-docker compose up
+git clone git@github.com:5CCSACCA/resit-coursework-ra1425.git
+cd resit-coursework-ra1425
 ```
+
+(You can use the HTTPS URL instead:
+`https://github.com/5CCSACCA/resit-coursework-ra1425.git`)
 
 Both models (the general Whisper base model and the Scottish LoRA adapter)
 download automatically during the build step, no manual setup required.
@@ -29,9 +45,15 @@ API docs (Swagger UI) are at `http://localhost:8000/docs`.
 
 ## Example usage
 
-A sample audio file is included at `samples/sample.wav` for testing.
+A sample audio file is included at `samples/sample.wav` (see
+Licensing note below).
 
-**Register a user:**
+The API works in three steps: register, log in to get a token, then use
+that token for everything else. Every protected endpoint needs the token
+because the system is multi-tenant, it has to know which user is making
+the request to keep each user's jobs separate from everyone else's.
+
+**1. Register a user:**
 ```bash
 curl -X POST http://localhost:8000/register \
   -H "Content-Type: application/json" \
@@ -41,8 +63,9 @@ Expected response:
 ```json
 {"id": 1, "email": "test@example.com", "role": "user"}
 ```
+No password field in the response, the API never echoes it back, even hashed.
 
-**Log in:**
+**2. Log in:**
 ```bash
 curl -X POST http://localhost:8000/login \
   -F "username=test@example.com" -F "password=password123"
@@ -51,8 +74,10 @@ Expected response:
 ```json
 {"access_token": "eyJ...", "token_type": "bearer"}
 ```
+This is a JWT, valid for 60 minutes. Copy `access_token`, every request
+below needs it in an `Authorization: Bearer <token>` header.
 
-**Transcribe audio (general):**
+**3. Transcribe audio (general model):**
 ```bash
 TOKEN="paste your access_token here"
 curl -X POST http://localhost:8000/transcribe \
@@ -63,23 +88,33 @@ Expected response:
 ```json
 {"id": 1, "status": "completed", "filename": "sample.wav", "created_at": "..."}
 ```
+This returns the job record, not the transcript text itself, transcription
+is asynchronous by design. In this deployment the wait happens inside the
+request, so the job already shows "completed" by the time you see the
+response, but the job/status pattern is what lets this scale to slower or
+queued processing later without changing the API shape.
 
-**Transcribe audio (Scottish-accent fine-tuned model):**
+**4. Transcribe audio (Scottish-accent fine-tuned model):**
 ```bash
 curl -X POST http://localhost:8000/transcribe/scottish \
   -H "Authorization: Bearer $TOKEN" \
   -F "file=@samples/sample.wav;type=audio/wav"
 ```
+Same shape, routed to the fine-tuned model instead, noticeably slower, see
+the report's Model section for why.
 
-**List your jobs:**
+**5. List your jobs:**
 ```bash
 curl http://localhost:8000/jobs -H "Authorization: Bearer $TOKEN"
 ```
+Only returns jobs belonging to the authenticated user, enforced at the
+database query level, not just hidden in the UI.
 
-**Get a transcript:**
+**6. Get a transcript:**
 ```bash
 curl http://localhost:8000/jobs/1/transcript -H "Authorization: Bearer $TOKEN"
 ```
+Replace `1` with the actual job `id` from step 3 or 4.
 
 ## Monitoring
 
@@ -124,3 +159,10 @@ as supporting evidence for those figures.
 
 See the full report for the architecture diagram, model fine-tuning
 methodology, cost analysis, and sustainability calculation.
+
+## Licensing note
+
+`samples/sample.wav` is one recording from OpenSLR's "Crowdsourced
+high-quality UK and Ireland English Dialect speech data set" (SLR83),
+licensed CC BY-SA 4.0. Included here for demonstration purposes only. Full
+dataset and license terms: https://www.openslr.org/83/
