@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "bfsld4rs070u8a"
+        "uid": "prometheus-datasource"
       },
       "fieldConfig": {
         "defaults": {
@@ -118,7 +118,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "bfsld4rs070u8a"
+        "uid": "prometheus-datasource"
       },
       "fieldConfig": {
         "defaults": {
@@ -212,7 +212,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "bfsld4rs070u8a"
+        "uid": "prometheus-datasource"
       },
       "fieldConfig": {
         "defaults": {
@@ -295,7 +295,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "bfsld4rs070u8a"
+            "uid": "prometheus-datasource"
           },
           "editorMode": "code",
           "expr": "sum by (handler) (rate(http_requests_total{handler!=\"/metrics\"}[1m]))",
